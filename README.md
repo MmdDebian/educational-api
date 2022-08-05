@@ -31,15 +31,15 @@ fronend :
 hello there 
 In this repository I tried to create api of educational website\
 
-My focus has been on apis,\
+My focus has been on apis
 
-This api creates, edits or deletes users\
+This api creates, edits or deletes users
 
-Some tasks are on the admin's shoulders\
+Some tasks are on the admin's shoulders
 
-If a user has an admin flag in the system, he can create a course and add parts of the courses to the courses.\
+If a user has an admin flag in the system, he can create a course and add parts of the courses to the courses
 
-Update, delete or create courses \
+Update, delete or create courses
 
 Users can post their comments under the courses and view the courses
 Course data:
