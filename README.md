@@ -18,7 +18,7 @@ backend :
 - multer 
 - config 
 
-fronend : 
+frontend : 
 
 - react js 
 - bootstrap 
