@@ -2,13 +2,15 @@ export interface IUser {
     name : string | null
     email : string 
     password : string 
-    verify_code : string | null  
 }
 
 
 export interface IUpdateUser {
-    name : string 
-    bio : string 
+    name? : string 
+    bio? : string 
+    email? : string
+    password? : string 
+    isAdmin? : boolean 
 }
 
 export interface ICourse{
@@ -28,4 +30,10 @@ export interface IFile {
     title : string 
     file : string  
     size : number 
+}
+
+export interface IComment {
+    content : string 
+    courseId : string ,
+    userId : string 
 }

@@ -2,7 +2,7 @@ import { Course, Files, PrismaClient } from "@prisma/client";
 import { ICourse, IFile } from "../../lib/interfaces";
 
 
-export default new class Service extends PrismaClient{
+class Service extends PrismaClient{
     
     getAllCourse = async ():Promise<Course[]>=>{
         return new Promise((resolve , reject)=>{
@@ -10,6 +10,7 @@ export default new class Service extends PrismaClient{
                 include : {
                     teacher : true ,
                     files : true ,
+                    comments : true
                 }
             })
             .then(result=>{
@@ -23,7 +24,7 @@ export default new class Service extends PrismaClient{
 
     getCourseById = async (id:string):Promise<Course | null>=>{
         return new Promise(async(resolve, reject) => {
-            this.course.findUnique({where : {id : id}, include : {files : true , comments : true}})
+            this.course.findUnique({where : {id : id}, include : {teacher: true , files : true , comments : true}})
             .then((found)=>{
                 if(!found) return resolve(null)
                 resolve(found)
@@ -93,3 +94,5 @@ export default new class Service extends PrismaClient{
         })
     }
 }
+
+export default new Service ;

@@ -8,7 +8,6 @@ import service from './service';
 
 export async function getAllCourse(req:Request , res:Response) {
     const courses = await service.getAllCourse();
-
     response(res , {
         data : courses,
     })

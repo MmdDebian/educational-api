@@ -24,3 +24,37 @@ export function login_validate(){
         check('password' , 'password is required').notEmpty(),
     ]
 }
+
+export function createUser_validate(){
+    return [
+        // check email
+        check('email' , 'email is required').notEmpty(),
+        check('email' , 'email is inValid').isEmail() ,
+
+        // chech password 
+        check('password' , 'password is required').notEmpty(),
+    ]
+}
+
+
+export function createCourse_vlidate(){
+    return [
+        // check email
+        check('title' , 'title is required').notEmpty(),
+    ]
+}
+
+
+export function comment_validate(){
+    return [
+        // check comment
+        check('content' , 'content is required').notEmpty(),
+    ]
+}
+
+export function file_validate(){
+    return [
+        // check file
+        check('title' , 'title is required').notEmpty(),
+    ]
+}

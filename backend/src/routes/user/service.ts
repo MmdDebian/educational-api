@@ -1,41 +1,53 @@
-import { PrismaClient, User } from '@prisma/client' ;
-import { IUpdateUser } from '../../lib/interfaces';
+import { Course, PrismaClient, User } from "@prisma/client";
+import { IUpdateUser, IUser } from "../../lib/interfaces";
 
-export default new class Service extends PrismaClient{
-
-    updateUser = async (user:User , body:IUpdateUser):Promise<User | null>=>{
-        return new Promise((success , error)=>{
-            this.user.update({where : {id : user.id} , data:body})
-            .then(result=>{
-                success(result)
-            })
-            .catch((err)=>{
-                error(err)
-            })
+class Service extends PrismaClient{
+    getAll = async ()=>{
+        return new Promise<User[]>((resolve, reject) => {
+            this.user.findMany({}).then(users=>resolve(users));
         })
     }
 
-    addAvatar = async (user:User,filePath:string):Promise<Object | null>=>{
-        return new Promise((success , error)=>{
-            this.user.update({where : {id : user.id} , data:{avatar : filePath}})
-            .then(result=>{
-                success(result)
+    getById = async (id:string)=>{
+        return new Promise<User | null>((resolve, reject) => {
+            this.user.findUnique({where : {id : id}})
+            .then((user)=>{
+                if(!user)return resolve(null);
+                resolve(user)
             })
-            .catch(err=>{
-                error(err)
-            })
+            .catch((err)=>reject(err))
         })
     }
 
-    deleteAvatar = async (user:User):Promise<Object | string>=>{
-        return new Promise((resolve , reject)=>{
-            this.user.update({where : {id : user.id} , data : {avatar : 'https://api.realworld.io/images/smiley-cyrus.jpeg'}})
-            .then((result)=>{
-                resolve(result)
+    getByEmail = async (email:string)=>{
+        return new Promise<User | null>((resolve, reject) => {
+            this.user.findUnique({where : {email : email}})
+            .then((user)=>{
+                if(!user)return resolve(null);
+                resolve(user)
             })
-            .catch((err)=>{
-                reject(err)
-            })
+            .catch((err)=>reject(err))
+        })
+    }
+
+    create = async (body:IUser)=>{
+        return new Promise<User>((resolve, reject) => {
+            this.user.create({data:body}).then(user=>resolve(user));
+        })
+    }
+
+    update = async (id:string , body:IUpdateUser)=>{
+        return new Promise<User>((resolve, reject) => {
+            this.user.update({where : {id : id} , data : body}).then(user=>resolve(user))
+        })
+    }
+
+    deleteUser = async (id:string)=>{
+        return new Promise<any>((resolve, reject) => {
+            this.user.delete({where : {id : id}}).then(()=>resolve('deleted user'))
+            .catch((err)=>reject(err))
         })
     }
 }
+
+export default new Service

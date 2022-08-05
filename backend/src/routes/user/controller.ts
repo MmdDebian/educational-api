@@ -2,67 +2,121 @@ import { Request , Response } from 'express';
 import { IUpdateUser, IUser } from '../../lib/interfaces';
 import service from './service';
 import response from '../../utils/response';
-import _, { propertyOf } from 'lodash' ;
+import _ from 'lodash' ;
 import { unlink } from 'fs';
+import { hashPassword } from '../../lib/bcrypt';
 
-export async function profile(req:Request , res:Response) {
+
+export async function getAllUsers(req:Request , res:Response) {
+    
+    const users = await service.getAll()
+
+    const result = users.map(user=>{
+        return _.pick(user , ['name' , 'email' , 'avatar' , 'isAdmin'])
+    })
+    
     response(res , {
-        data : _.pick(req.user , ['name' , 'email' , 'avatar' , 'bio'])
+        data : result
     })
 }
 
 
-export async function updateUser(req:Request , res:Response) {
-    let { name , bio  } = req.body ;
+export async function getUserById(req:Request , res:Response) {
+    const id = req.params.id ;
+    
+    const user = await service.getById(id)
 
-    let data:IUpdateUser = {
-        name ,
-        bio ,
+    if(!user){
+        return response(res, {
+            message : 'user is not Found' ,
+            status : 404
+        })
     }
-
-    const result = await service.updateUser(req.user , data);
 
     response(res, {
-        message : 'successfully updated' , 
-        status : 200 , 
-        data : _.pick(result , ['name' , 'bio' , 'avatar'])
+        data : _.pick(user , ['id' , 'email' , 'bio' , 'avatar' , 'isAdmin'])
     })
 }
 
-export async function addAvatar(req:Request , res:Response) {
 
-    let { avatar } = req.body ;
-    
-    if(!req.file){
-        return avatar = null ;
+export async function createUser(req:Request , res:Response) {
+    let {name,email,password} = req.body ;
+
+    const user = await service.getByEmail(email);
+
+    if(user){
+        return response(res, {
+            message : 'user is registerd' , 
+            status : 409
+        })
+    }
+
+    password = await hashPassword(password);
+
+    const data:IUser = {
+        name ,
+        email ,
+        password ,
+    }
+
+    const newUser = await service.create(data)
+
+    response(res, {
+        message : 'success created user' , 
+        data : _.pick(newUser , ['name','email','avatar','bio'])
+    })
+}
+
+export async function updateUser(req:Request , res:Response) {
+    const id = req.params.id ;
+    const user = await service.getById(id);
+
+    if(!user){
+        return response(res , {
+            message : 'user is not found',
+            status : 404
+        })
+    }
+
+    let { name ,email, password , isAdmin } = req.body ; 
+
+    if(password){
+        password = await hashPassword(password);
     }
     else{
-        console.log(req.file)
-        avatar = req.file.path.replace(/\\/g ,'/').substring(6) ;
+        password = user.password ;
     }
+    
+    let data:IUpdateUser = {
+        name ,
+        email , 
+        password ,
+        isAdmin ,
+    }
+    
+    const result = await service.update(id , data);
 
-    const result = await service.addAvatar(req.user , avatar);
-
-    response(res , {
-        message : 'success update avatar' ,
-        data : _.pick(result , ['name' , 'bio' , 'avatar']) ,
-        status : 200
+    response(res, {
+        message : 'success updated' ,
+        data : _.pick(result , ['name' , 'email' ,'bio' , 'avatar' ,'isAdmin'])
     })
-    
-    
 }
 
-export async function deleteAvatar(req:Request , res:Response) {
-    const filePath = `${process.cwd()}/public/${req.user.avatar}`
-    
+export async function deleteUser(req:Request , res:Response) {
+    const id = req.params.id ; 
+    const user = await service.getById(id);
+
+    if(!user){
+        return response(res , {
+            message : 'user is not found',
+            status : 404
+        })
+    }
+
+    let filePath = `${process.cwd()}/public/${user.avatar}`
     unlink(filePath , (err)=>{
-        console.error('can not delete file')
+        console.error('no such file in path')
     })
 
-    service.deleteAvatar(req.user)
-    .then(()=>{
-        response(res , {
-            message : 'successfully deleted avatar' ,
-        })
-    })
+    service.deleteUser(id).then(()=>response(res, {message : 'success deleted'}))
 }

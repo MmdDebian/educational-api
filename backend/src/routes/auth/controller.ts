@@ -25,7 +25,6 @@ export async function register(req:Request,res:Response){
         name ,
         email ,
         password ,
-        verify_code : generateOTP()
     };
 
     const newUser = await service.createUser(data); 
