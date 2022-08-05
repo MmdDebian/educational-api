@@ -2,7 +2,6 @@ import config from 'config';
 import logger from '../utils/logger';
 import app from '../app' ;
 
-
 process.on('uncaughtException' , (err)=>{
     console.error('uncaughtException ' + err);
     logger.error(err)
