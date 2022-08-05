@@ -4,7 +4,6 @@ export interface IUser {
     password : string 
 }
 
-
 export interface IUpdateUser {
     name? : string 
     bio? : string 
