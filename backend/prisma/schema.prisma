@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id String @id @default(uuid())
+  name String? 
+  email String @unique
+  password String 
+  bio String? @db.Text()
+  isAdmin Boolean? @default(false)
+  avatar String? @default("https://api.realworld.io/images/smiley-cyrus.jpeg") 
+  comments Comment[]
+  courses Course[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model Course{
+  id String @id @default(uuid())
+  teacher User @relation(fields: [teacherId] , references: [id])
+  teacherId String
+  avatar String? @default("https://fakeimg.pl/350x200/?text=Fake-Image-Course")
+  title String 
+  description String? 
+  discount String? 
+  price String? 
+  level String?
+  comments Comment[]
+  files Files[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model Files {
+  id String @id @default(uuid())
+  course Course @relation(fields: [courseId],references: [id])
+  courseId String 
+  file String?
+  title String? 
+  size Int?
+}
+
+
+model Comment{
+  id String @id @default(uuid())
+  content String 
+  course Course @relation(fields: [courseId] , references: [id])
+  courseId String 
+  user User @relation(fields: [userId], references: [id]) 
+  userId String 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}

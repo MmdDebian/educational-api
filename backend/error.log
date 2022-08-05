@@ -1,0 +1,12 @@
+{"level":"error","message":true}
+{"clientVersion":"4.1.1","level":"error"}
+{"clientVersion":"4.1.1","level":"error"}
+{"clientVersion":"4.1.1","level":"error"}
+{"clientVersion":"4.1.1","level":"error"}
+{"clientVersion":"4.1.1","code":"P2025","level":"error","meta":{"cause":"Record to delete does not exist."}}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"code":"LIMIT_UNEXPECTED_FILE","field":"avatar","level":"error","message":"Unexpected field","name":"MulterError","storageErrors":[]}
+{"level":"error"}
