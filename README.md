@@ -44,4 +44,4 @@ Update, delete or create courses
 Users can post their comments under the courses and view the courses
 Course data:
 
-![alt text](./files/img1.PNG)
+![alt text](./files/courseData.PNG)
