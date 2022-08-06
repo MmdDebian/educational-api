@@ -38,7 +38,6 @@ export async function createCourse(req:Request , res:Response) {
         description , 
         discount , 
         price , 
-        top , 
         title , 
         avatar , 
         level 
@@ -55,7 +54,6 @@ export async function createCourse(req:Request , res:Response) {
         description , 
         discount ,
         price , 
-        top , 
         title , 
         avatar , 
         level ,

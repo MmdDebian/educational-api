@@ -8,7 +8,7 @@ import { hashPassword } from '../../lib/bcrypt';
 
 export async function profile(req:Request , res:Response) {
     response(res , {
-        data : _.pick(req.user , ['name' , 'email' , 'avatar' , 'bio'])
+        data : _.pick(req.user , ['name' , 'email' , 'avatar' , 'bio' , 'isAdmin'])
     })
 }
 
