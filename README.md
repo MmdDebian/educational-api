@@ -19,10 +19,7 @@ backend :
 - config 
 
 frontend : 
-
-- react js 
-- bootstrap 
-- updating ..... 
+- trying to create 
 
 ## About 
 
