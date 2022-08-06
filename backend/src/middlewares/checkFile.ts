@@ -3,7 +3,6 @@ import { unlink } from 'fs';
 import path from 'path';
 import response from '../utils/response';
 
-
 export default function checkFile(req:Request,res:Response,next:NextFunction){
     if(!req.file){
         return next();
