@@ -38,3 +38,12 @@ Users can post their comments under the courses and view the courses.
 
 Course data :\
 ![alt text](./files/courseData.PNG)
+
+
+
+### Implemented endpoints:
+>note: APIs start with the /api path (for Example : /api/auth/register )
+#### /auth 
+Path | Method | Description
+---|---|--- 
+/api/auth/register | port | register Action
