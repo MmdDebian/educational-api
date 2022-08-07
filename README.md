@@ -50,6 +50,7 @@ Path | Method | Description
 
 #### /profile 
 >Note: To continue, it must be authenticated and send the token in the requests header (set header : {'x-auth-token : your-token})
+
 Path | Method | Description
 ---|---|--- 
 /profile/ | GET | Read User 
@@ -68,8 +69,8 @@ Path | Method | Description
 /course | POST | Create cousre (required admin flag) (Content-Type:multipart/form-data)
 /course/:id | PUT | Update course (required admin flag) (Content-Type:multipart/form-data)
 /course/:id | DELETE | Delete Course (required admin flag) 
-/course/:id/file/ | POST / Create course sections use course id (reuired admin flag) (Content-Type:multipart/form-data)
-/course/file/:id | DELETE / Deleted course section use file id (reuired admin flag)
+/course/:id/file/ | POST | Create course sections use course id (reuired admin flag) (Content-Type:multipart/form-data)
+/course/file/:id | DELETE | Deleted course section use file id (reuired admin flag)
 
 
 #### /user
@@ -84,7 +85,9 @@ Path | Method | Description
 
 
 #### /Comment
+
 >Note : To continue, it must be authenticated .
+
 Path | Method | Description
 ---|---|--- 
 /comment/:id | POST | Add comment to course using course id 
