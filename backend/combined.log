@@ -1,11 +1,7 @@
 {"level":"info","message":"app runing on port 3001","port":3001}
-{"clientVersion":"4.1.1","level":"error"}
 {"level":"info","message":"app runing on port 3001","port":3001}
-{"level":"info","message":"app runing on port 3001","port":3001}
-{"level":"info","message":"app runing on port 3001","port":3001}
-{"clientVersion":"4.1.1","level":"error"}
+{"code":"ERR_HTTP_HEADERS_SENT","level":"error"}
 {"level":"info","message":"app runing on port 3001","port":3001}
 {"level":"info","message":"app runing on port 3001","port":3001}
 {"level":"info","message":"app runing on port 3001","port":3001}
 {"level":"info","message":"app runing on port 3001","port":3001}
-{"clientVersion":"4.1.1","level":"error"}

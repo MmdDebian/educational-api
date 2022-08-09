@@ -8,9 +8,25 @@ class Service extends PrismaClient{
         return new Promise((resolve , reject)=>{
             this.course.findMany({
                 include : {
-                    teacher : true ,
-                    files : true ,
-                    comments : true
+                    teacher : {
+                        select : {
+                            name : true , 
+                            email : true ,
+                            avatar : true
+                        }
+                    },
+                    files : true , 
+                    comments : {
+                        include : {
+                            user : {
+                                select : {
+                                    name : true , 
+                                    email : true , 
+                                    avatar : true
+                                }
+                            } 
+                        }
+                    }
                 }
             })
             .then(result=>{
@@ -24,7 +40,23 @@ class Service extends PrismaClient{
 
     getCourseById = async (id:string):Promise<Course | null>=>{
         return new Promise(async(resolve, reject) => {
-            this.course.findUnique({where : {id : id}, include : {teacher: true , files : true , comments : true}})
+            this.course.findUnique({
+                where : {id : id} , 
+                include : {
+                    files : true , 
+                    comments : {
+                        include : {
+                            user : {
+                                select : {
+                                    name : true ,
+                                    email : true ,
+                                    avatar : true
+                                }
+                            }
+                        }
+                    }
+                }
+            })
             .then((found)=>{
                 if(!found) return resolve(null)
                 resolve(found)
@@ -37,7 +69,18 @@ class Service extends PrismaClient{
 
     createCourse = async (body:ICourse)=>{
         return new Promise<Course>((resolve, reject) => {
-            this.course.create({data : body})
+            this.course.create({
+                data : body ,
+                include : {
+                    teacher : {
+                        select : {
+                            name : true ,
+                            email : true ,
+                            avatar : true
+                        }
+                    }
+                }
+            })
             .then((course)=>{
                 resolve(course);
             })
@@ -49,7 +92,18 @@ class Service extends PrismaClient{
 
     updateCourse = async (id:string , data:ICourse)=>{
         return new Promise<Course>((resolve, reject) => {
-            this.course.update({where : {id : id} , data:data})
+            this.course.update({
+                where : {id : id} , 
+                data:data , 
+                include : {
+                    files : true ,
+                    comments : {
+                        include : {
+                            user : true
+                        }
+                    }
+                }
+            })
             .then((course)=>{
                 resolve(course)
             })
@@ -57,9 +111,9 @@ class Service extends PrismaClient{
         })
     }
 
-    addFileToCourse = async (id:string , data:IFile)=>{
+    addFileToCourse = async (data:IFile)=>{
         return new Promise<Files>((resolve, reject) => {
-            return this.files.create({data}).then((file)=>resolve(file));
+            return this.files.create({data}).then((file)=>resolve(file)).catch((err)=>reject(err))
         })
     }
 
@@ -86,11 +140,7 @@ class Service extends PrismaClient{
         return new Promise<string | null>((resolve, reject) => {
             this.course.delete({where :{id:id}})
             .then(()=>{resolve('deleted course')})
-            .catch((err)=>reject(err))
-
-            this.files.deleteMany({where : {courseId : id}})
-            .then(()=>{resolve('deleted files')})
-            .catch((err)=>reject(err))
+            .catch((err)=>reject(err));
         })
     }
 }

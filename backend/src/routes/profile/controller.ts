@@ -14,8 +14,9 @@ export async function profile(req:Request , res:Response) {
 
 
 export async function updateUser(req:Request , res:Response) {
-    let { name , bio , password } = req.body ;
+    let { name , bio , password, avatar } = req.body ;
 
+    
     if(password){
         password = await hashPassword(password);
     }
@@ -23,10 +24,17 @@ export async function updateUser(req:Request , res:Response) {
         password = req.user.password
     }
 
+
+    if(req.file){
+
+    }
+
+
     let data:IUpdateUser = {
         name ,
         bio ,
-        password
+        password , 
+        avatar ,
     }
 
     const result = await service.updateUser(req.user , data);
@@ -38,34 +46,6 @@ export async function updateUser(req:Request , res:Response) {
     })
 }
 
-export async function addAvatar(req:Request , res:Response) {
-
-    const filePath = `${process.cwd()}/public/${req.user.avatar}`
-    
-    unlink(filePath , (err)=>{
-        console.error('can not delete file')
-    })
-    
-    let { avatar } = req.body ;
-
-    
-    if(!req.file){
-        return avatar = null ;
-    }
-    else{
-        console.log(req.file)
-        avatar = req.file.path.replace(/\\/g ,'/').substring(6) ;
-    }
-
-    const result = await service.addAvatar(req.user , avatar);
-
-    response(res , {
-        message : 'success update avatar' ,
-        data : _.pick(result , ['name' , 'bio' , 'avatar']) ,
-    })
-    
-    
-}
 
 export async function deleteAvatar(req:Request , res:Response) {
     const filePath = `${process.cwd()}/public/${req.user.avatar}`

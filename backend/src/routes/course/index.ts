@@ -1,9 +1,10 @@
 import { Router } from 'express' ;
+import checkFile from '../../middlewares/checkFile';
 import isAdmin from '../../middlewares/isAdmin';
 import isAuth from '../../middlewares/isAuth';
 import upload from '../../uploads/config';
 import validate from '../../validators/validate';
-import { file_validate } from '../../validators/validation_body';
+import { createCourse_vlidate, file_validate } from '../../validators/validation_body';
 import { 
     addFileToCourse,
     createCourse, 
@@ -18,7 +19,16 @@ const router = Router();
 
 router.get('/' , getAllCourse)
 router.get('/:id' , getById);
-router.post('/' , isAuth ,isAdmin , upload.single('avatar') , createCourse);
+router.post(
+    '/' , 
+    isAuth ,
+    isAdmin , 
+    upload.single('avatar') , 
+    createCourse_vlidate() , 
+    validate ,
+    checkFile ,
+    createCourse
+);
 router.put('/:id' , isAuth ,isAdmin , upload.single('avatar') ,updateCourse);
 router.delete('/:id' , isAuth ,isAdmin , deleteCourse);
 // course id for add new file 
@@ -27,8 +37,6 @@ router.post(
     isAuth , 
     isAdmin , 
     upload.single('file') ,
-    file_validate() , 
-    validate , 
     addFileToCourse
 );
 // course file id 

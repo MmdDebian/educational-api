@@ -3,6 +3,17 @@ import { IUpdateUser } from '../../lib/interfaces';
 
 class Service extends PrismaClient{
 
+    getUserById = async (id:string)=>{
+        return new Promise<User | null>((resolve, reject) => {
+            this.user.findUnique({where : {id:id}})
+            .then((found)=>{
+                if(!found)return resolve(null);
+                resolve(found)
+            })
+            .catch((err)=>reject(err))
+        })
+    }
+
     updateUser = async (user:User , body:IUpdateUser):Promise<User | null>=>{
         return new Promise((success , error)=>{
             this.user.update({where : {id : user.id} , data:body})
@@ -10,18 +21,6 @@ class Service extends PrismaClient{
                 success(result)
             })
             .catch((err)=>{
-                error(err)
-            })
-        })
-    }
-
-    addAvatar = async (user:User,filePath:string):Promise<Object | null>=>{
-        return new Promise((success , error)=>{
-            this.user.update({where : {id : user.id} , data:{avatar : filePath}})
-            .then(result=>{
-                success(result)
-            })
-            .catch(err=>{
                 error(err)
             })
         })

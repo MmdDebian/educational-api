@@ -50,6 +50,7 @@ Path | Method | Description
 
 #### /profile 
 >Note: To continue, it must be authenticated and send the token in the requests header (set header : {'x-auth-token : your-token})
+
 Path | Method | Description
 ---|---|--- 
 /profile/ | GET | Read User 

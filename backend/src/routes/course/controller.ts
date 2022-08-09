@@ -87,7 +87,6 @@ export async function updateCourse(req:Request , res:Response) {
         description , 
         discount , 
         price , 
-        top , 
         title , 
         avatar , 
         level 
@@ -99,7 +98,6 @@ export async function updateCourse(req:Request , res:Response) {
         description , 
         discount ,
         price , 
-        top , 
         title , 
         level ,
         avatar ,
@@ -170,7 +168,7 @@ export async function addFileToCourse(req:Request , res:Response) {
         size : req.file.size
     }
 
-    const newFile = await service.addFileToCourse(id ,data)
+    const newFile = await service.addFileToCourse(data)
 
     response(res, {
         message : 'successfuly uploaded' ,

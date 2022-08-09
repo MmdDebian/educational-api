@@ -18,17 +18,19 @@ model User {
   password String 
   bio String? @db.Text()
   isAdmin Boolean? @default(false)
+  filePath String? 
   avatar String? @default("https://api.realworld.io/images/smiley-cyrus.jpeg") 
   comments Comment[]
   courses Course[]
   createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Course{
   id String @id @default(uuid())
   teacher User @relation(fields: [teacherId] , references: [id])
   teacherId String
+  filePath String?
   avatar String? @default("https://fakeimg.pl/350x200/?text=Fake-Image-Course")
   title String 
   description String? 
@@ -38,26 +40,28 @@ model Course{
   comments Comment[]
   files Files[]
   createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Files {
   id String @id @default(uuid())
-  course Course @relation(fields: [courseId],references: [id])
+  course Course @relation(fields: [courseId],references: [id] , onDelete: Cascade , onUpdate: Cascade)
   courseId String 
   file String?
   title String? 
   size Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 
 model Comment{
   id String @id @default(uuid())
   content String 
-  course Course @relation(fields: [courseId] , references: [id])
+  course Course @relation(fields: [courseId] , references: [id] , onDelete: Cascade ,onUpdate: Cascade)
   courseId String 
-  user User @relation(fields: [userId], references: [id]) 
+  user User @relation(fields: [userId], references: [id] , onDelete:  Cascade , onUpdate:Cascade) 
   userId String 
   createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

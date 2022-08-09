@@ -1,3 +1,1 @@
-{"clientVersion":"4.1.1","level":"error"}
-{"clientVersion":"4.1.1","level":"error"}
-{"clientVersion":"4.1.1","level":"error"}
+{"code":"ERR_HTTP_HEADERS_SENT","level":"error"}

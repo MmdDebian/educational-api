@@ -41,6 +41,9 @@ export function createCourse_vlidate(){
     return [
         // check email
         check('title' , 'title is required').notEmpty(),
+        check('description' , 'description is required').notEmpty(),
+        check('price' , 'price is required').notEmpty(),
+        check('title' , 'title is required').notEmpty(),
     ]
 }
 
@@ -55,6 +58,6 @@ export function comment_validate(){
 export function file_validate(){
     return [
         // check file
-        check('title' , 'title is required').notEmpty(),
+        check('file' , 'file is required').notEmpty(),
     ]
 }

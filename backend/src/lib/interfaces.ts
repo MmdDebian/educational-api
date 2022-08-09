@@ -10,6 +10,8 @@ export interface IUpdateUser {
     email? : string
     password? : string 
     isAdmin? : boolean 
+    avatar? : string, 
+    filePath? : string 
 }
 
 export interface ICourse{
@@ -20,7 +22,6 @@ export interface ICourse{
     avatar? : string 
     price? : string 
     discount? : string 
-    top? : boolean
     teacherId : string 
 }
 

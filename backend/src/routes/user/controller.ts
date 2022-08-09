@@ -12,7 +12,7 @@ export async function getAllUsers(req:Request , res:Response) {
     const users = await service.getAll()
 
     const result = users.map(user=>{
-        return _.pick(user , ['name' , 'email' , 'avatar' , 'isAdmin'])
+        return _.pick(user , ['name' , 'email' , 'avatar', 'bio' , 'isAdmin'])
     })
     
     response(res , {
