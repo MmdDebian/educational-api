@@ -39,6 +39,8 @@ Course data :\
 ## Geting started
 
 >note:You must aleady have mysql , and add its address to .env
+
+
 ![.env](./files//env.PNG)
 
 ```
