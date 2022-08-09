@@ -27,7 +27,7 @@ model User {
 }
 
 model Course{
-  id String @id @default(uuid())
+  id Int @id() @default(autoincrement())
   teacher User @relation(fields: [teacherId] , references: [id])
   teacherId String
   filePath String?
@@ -38,15 +38,16 @@ model Course{
   price String? 
   level String?
   comments Comment[]
-  files Files[]
+  files File[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model Files {
-  id String @id @default(uuid())
+model File {
+  id Int @id() @default(autoincrement())
   course Course @relation(fields: [courseId],references: [id] , onDelete: Cascade , onUpdate: Cascade)
-  courseId String 
+  courseId Int
+  filePath String 
   file String?
   title String? 
   size Int?
@@ -56,10 +57,10 @@ model Files {
 
 
 model Comment{
-  id String @id @default(uuid())
+  id Int @id() @default(autoincrement())
   content String 
   course Course @relation(fields: [courseId] , references: [id] , onDelete: Cascade ,onUpdate: Cascade)
-  courseId String 
+  courseId Int 
   user User @relation(fields: [userId], references: [id] , onDelete:  Cascade , onUpdate:Cascade) 
   userId String 
   createdAt DateTime @default(now())

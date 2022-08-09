@@ -11,12 +11,8 @@ export async function getAllUsers(req:Request , res:Response) {
     
     const users = await service.getAll()
 
-    const result = users.map(user=>{
-        return _.pick(user , ['name' , 'email' , 'avatar', 'bio' , 'isAdmin'])
-    })
-    
     response(res , {
-        data : result
+        data : users
     })
 }
 
@@ -34,7 +30,7 @@ export async function getUserById(req:Request , res:Response) {
     }
 
     response(res, {
-        data : _.pick(user , ['id' , 'email' , 'bio' , 'avatar' , 'isAdmin'])
+        data : user
     })
 }
 
@@ -63,7 +59,7 @@ export async function createUser(req:Request , res:Response) {
 
     response(res, {
         message : 'success created user' , 
-        data : _.pick(newUser , ['name','email','avatar','bio'])
+        data : newUser
     })
 }
 
@@ -87,6 +83,10 @@ export async function updateUser(req:Request , res:Response) {
         password = user.password ;
     }
     
+    if(isAdmin){
+        isAdmin = true
+    }
+
     let data:IUpdateUser = {
         name ,
         email , 
@@ -98,7 +98,7 @@ export async function updateUser(req:Request , res:Response) {
 
     response(res, {
         message : 'success updated' ,
-        data : _.pick(result , ['name' , 'email' ,'bio' , 'avatar' ,'isAdmin'])
+        data : result
     })
 }
 
@@ -113,7 +113,7 @@ export async function deleteUser(req:Request , res:Response) {
         })
     }
 
-    let filePath = `${process.cwd()}/public/${user.avatar}`
+    let filePath = `${process.cwd()}/public/${user.filePath}`
     unlink(filePath , (err)=>{
         console.error('no such file in path')
     })

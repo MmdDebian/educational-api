@@ -1,3 +1,4 @@
+import config from 'config';
 import { Request , Response } from 'express' ;
 import { unlink } from 'fs';
 import _ from 'lodash'
@@ -15,7 +16,7 @@ export async function getAllCourse(req:Request , res:Response) {
 
 
 export async function getById(req:Request , res:Response) {
-    const id = req.params.id ;
+    let id = parseInt(req.params.id) ;
     
     let found = await service.getCourseById(id) ;
 
@@ -42,12 +43,6 @@ export async function createCourse(req:Request , res:Response) {
         avatar , 
         level 
     } = req.body ;
-
-
-    if(req.file){
-        avatar = req.file.path.replace(/\\/g,'/').substring(6);
-    }
-
         
     let data:ICourse = {
         name ,
@@ -55,11 +50,17 @@ export async function createCourse(req:Request , res:Response) {
         discount ,
         price , 
         title , 
-        avatar , 
+        avatar ,
         level ,
         teacherId : req.user.id
     }
 
+    
+    if(req.file){
+        const filePath = req.file.path.replace(/\\/g,'/').substring(6);
+        data.filePath = filePath ; 
+        data.avatar = `${config.get('host')}/${filePath}`;
+    }
 
     const newCourse = await service.createCourse(data)
 
@@ -71,7 +72,7 @@ export async function createCourse(req:Request , res:Response) {
 }
 
 export async function updateCourse(req:Request , res:Response) {
-    let id = req.params.id ;
+    let id = parseInt(req.params.id) ;
 
     const found = await service.getCourseById(id) ;
 
@@ -105,8 +106,11 @@ export async function updateCourse(req:Request , res:Response) {
     }
 
     if(req.file){
-        data.avatar = req.file.path.replace(/\\/g,'/').substring(6);
-        let previousFilePath = `${process.cwd()}/public/${found.avatar}`
+        const filePath = req.file.path.replace(/\\/g,'/').substring(6);
+        data.filePath = filePath ;
+        data.avatar = `${config.get('host')}${filePath}`
+
+        let previousFilePath = `${process.cwd()}/public/${found.filePath}`
         unlink(previousFilePath , (err)=>{
             console.error(err)
         })
@@ -122,7 +126,7 @@ export async function updateCourse(req:Request , res:Response) {
 
 
 export async function deleteCourse(req:Request , res:Response) {
-    const id = req.params.id ;
+    let id = parseInt(req.params.id) ;
 
     service.deleteCourse(id)
     .then(()=>{
@@ -138,7 +142,7 @@ export async function deleteCourse(req:Request , res:Response) {
 }
 
 export async function addFileToCourse(req:Request , res:Response) {
-    const id = req.params.id ;
+    let id = parseInt(req.params.id) ;
 
     const course = await service.getCourseById(id);
 
@@ -157,15 +161,16 @@ export async function addFileToCourse(req:Request , res:Response) {
             status : 400
         })
     }
-    else{
-        file = req.file.path.replace(/\\/g,'/').substring(6)
-    }
 
-    const data:IFile = {
-        title : title , 
-        file : file , 
+    const filePath = req.file.path.replace(/\\/g,'/').substring(6) ; 
+    file = `${config.get('host')}/${filePath}`;
+    
+    let data:IFile = {
+        title : title ,  
         courseId : course.id ,
-        size : req.file.size
+        size : req.file.size ,
+        filePath ,
+        file , 
     }
 
     const newFile = await service.addFileToCourse(data)
@@ -177,7 +182,7 @@ export async function addFileToCourse(req:Request , res:Response) {
 }
 
 export async function deleteFileToCourse(req:Request , res:Response) {
-    const id = req.params.id ;
+    let id = parseInt(req.params.id) ;
 
     const found = await service.getFilesById(id);
 
@@ -188,7 +193,7 @@ export async function deleteFileToCourse(req:Request , res:Response) {
         })
     }
 
-    const filePath = `${process.cwd()}/public/${found.file}`
+    const filePath = `${process.cwd()}/public/${found.filePath}`
     unlink(filePath , (err)=>{
         console.error(err)
     })

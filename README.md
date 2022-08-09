@@ -36,7 +36,22 @@ Users can post their comments under the courses and view the courses.
 Course data :\
 ![alt text](./files/courseData.PNG)
 
+## Geting started
 
+>note:You must aleady have mysql , and add its address to .env
+![.env](./files//env.PNG)
+
+```
+npm install 
+
+npx prisma migrate dev --name you-migrate-name 
+
+npm run build 
+
+npm start 
+
+
+```
 
 ### Implemented endpoints:
 >Note: APIs start with the /api path (for Example : /api/auth/register )

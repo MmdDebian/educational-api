@@ -4,7 +4,7 @@ import { IComment } from "../../lib/interfaces";
 
 class Service extends PrismaClient {
 
-    findCourse = async (id:string)=>{
+    findCourse = async (id:number)=>{
         return new Promise<Course | null>((resolve, reject) => {
             this.course.findUnique({where : {id}})
             .then((course)=>{
@@ -20,7 +20,7 @@ class Service extends PrismaClient {
         })
     }
 
-    deleteComment = async (id:string)=>{
+    deleteComment = async (id:number)=>{
         return new Promise<string | any>((resolve, reject) => {
             this.comment.delete({where : {id:id}})
             .then(()=>resolve('deleted comment'))

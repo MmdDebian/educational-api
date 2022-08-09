@@ -1,4 +1,4 @@
-import { Course, Files, PrismaClient } from "@prisma/client";
+import { Course, File, PrismaClient } from "@prisma/client";
 import { ICourse, IFile } from "../../lib/interfaces";
 
 
@@ -38,7 +38,7 @@ class Service extends PrismaClient{
         })  
     }
 
-    getCourseById = async (id:string):Promise<Course | null>=>{
+    getCourseById = async (id:number):Promise<Course | null>=>{
         return new Promise(async(resolve, reject) => {
             this.course.findUnique({
                 where : {id : id} , 
@@ -90,7 +90,7 @@ class Service extends PrismaClient{
         })
     }
 
-    updateCourse = async (id:string , data:ICourse)=>{
+    updateCourse = async (id:number , data:ICourse)=>{
         return new Promise<Course>((resolve, reject) => {
             this.course.update({
                 where : {id : id} , 
@@ -112,14 +112,14 @@ class Service extends PrismaClient{
     }
 
     addFileToCourse = async (data:IFile)=>{
-        return new Promise<Files>((resolve, reject) => {
-            return this.files.create({data}).then((file)=>resolve(file)).catch((err)=>reject(err))
+        return new Promise<File>((resolve, reject) => {
+            return this.file.create({data}).then((file)=>resolve(file)).catch((err)=>reject(err))
         })
     }
 
-    getFilesById = async (id:string)=>{
-        return new Promise<Files | null>((resolve, reject) => {
-            this.files.findUnique({where : {id : id}})
+    getFilesById = async (id:number)=>{
+        return new Promise<File | null>((resolve, reject) => {
+            this.file.findUnique({where : {id : id}})
             .then((file)=>{
                 if(!file) return resolve(null)
                 resolve(file)
@@ -130,13 +130,13 @@ class Service extends PrismaClient{
         })
     }
 
-    deleteFileToCourse = async (id:string)=>{
+    deleteFileToCourse = async (id:number)=>{
         return new Promise<string | boolean>((resolve, reject) => {
-            return this.files.delete({where : {id : id}}).then(()=>resolve(true))
+            return this.file.delete({where : {id : id}}).then(()=>resolve(true))
         })
     }
 
-    deleteCourse = async (id:string)=>{
+    deleteCourse = async (id:number)=>{
         return new Promise<string | null>((resolve, reject) => {
             this.course.delete({where :{id:id}})
             .then(()=>{resolve('deleted course')})

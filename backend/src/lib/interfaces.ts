@@ -9,7 +9,7 @@ export interface IUpdateUser {
     bio? : string 
     email? : string
     password? : string 
-    isAdmin? : boolean 
+    isAdmin? : boolean
     avatar? : string, 
     filePath? : string 
 }
@@ -20,20 +20,22 @@ export interface ICourse{
     level? : string 
     description? : string 
     avatar? : string 
+    filePath? : string
     price? : string 
     discount? : string 
     teacherId : string 
 }
 
 export interface IFile { 
-    courseId : string 
+    courseId : number 
     title : string 
+    filePath : string
     file : string  
     size : number 
 }
 
 export interface IComment {
     content : string 
-    courseId : string ,
+    courseId : number ,
     userId : string 
 }

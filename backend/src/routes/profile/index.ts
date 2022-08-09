@@ -7,8 +7,7 @@ const router = Router();
 
 router.use(isAuth);
 router.get('/' , controller.profile);
-router.put('/' , controller.updateUser);
-router.put('/avatar' , upload.single('avatar') , checkFile , controller.addAvatar);
+router.put('/' , upload.single('avatar') ,controller.updateUser);
 router.delete('/avatar' , controller.deleteAvatar);
 
 export default router ;

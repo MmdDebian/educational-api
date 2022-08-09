@@ -6,7 +6,7 @@ import service from './service';
 
 
 export async function addComment(req:Request ,res:Response) {
-    const id = req.params.id ; 
+    const id = parseInt(req.params.id) ; 
     const { content } = req.body ;
     const course = await service.findCourse(id);
 
@@ -36,7 +36,7 @@ export async function addComment(req:Request ,res:Response) {
 
 
 export async function deleteComment(req:Request ,res:Response) {
-    const id = req.params.id ;
+    const id = parseInt(req.params.id) ; 
 
     service.deleteComment(id)
     .then(()=>{
