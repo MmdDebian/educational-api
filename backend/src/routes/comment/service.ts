@@ -4,28 +4,16 @@ import { IComment } from "../../lib/interfaces";
 
 class Service extends PrismaClient {
 
-    findCourse = async (id:number)=>{
-        return new Promise<Course | null>((resolve, reject) => {
-            this.course.findUnique({where : {id}})
-            .then((course)=>{
-                if(!course)return resolve(null);
-                resolve(course);
-            })
-        })
+    findCourse = async (id:number):Promise<Course | null>=>{
+        return await this.course.findUnique({where:{id}});
     }
 
-    addComment = async (data:IComment)=>{
-        return new Promise<Comment>((resolve, reject) => {
-            this.comment.create({data : data}).then(comment=>resolve(comment))
-        })
+    addComment = async (data:IComment):Promise<Comment>=>{
+        return await this.comment.create({data});
     }
 
     deleteComment = async (id:number)=>{
-        return new Promise<string | any>((resolve, reject) => {
-            this.comment.delete({where : {id:id}})
-            .then(()=>resolve('deleted comment'))
-            .catch((err)=>reject(err))
-        })
+        return await this.comment.delete({where : {id}});
     }
 }
 

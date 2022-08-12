@@ -48,7 +48,7 @@ CREATE TABLE `File` (
 
 -- CreateTable
 CREATE TABLE `Comment` (
-    `id` VARCHAR(191) NOT NULL,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `content` VARCHAR(191) NOT NULL,
     `courseId` INTEGER NOT NULL,
     `userId` VARCHAR(191) NOT NULL,
